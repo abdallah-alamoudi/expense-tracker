@@ -28,7 +28,7 @@ export const loadExpenses = () => {
   const storedExpensesJson = localStorage.getItem('expenses');
   const storedExpenses = JSON.parse(storedExpensesJson);
   // convert string date to Object date
-  storedExpenses.forEach((exp) => (exp.date = new Date(exp.date)));
+  storedExpenses?.forEach((exp) => (exp.date = new Date(exp.date)));
   return storedExpenses || initialExpenses;
 };
 export const saveExpenses = (expenses) => {

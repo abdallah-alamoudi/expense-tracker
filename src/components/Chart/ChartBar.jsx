@@ -4,7 +4,7 @@ const ChartBar = ({ month: { title, value }, maxVal }) => {
   const barHeight = maxVal === 0 ? 0 : Math.round((value / maxVal) * 100);
 
   return (
-    <div className='flex flex-col justify-center items-center text-cyan-200 font-bold '>
+    <div className='flex flex-col justify-center gap-3 items-center text-cyan-200 font-bold '>
       <div className='h-[100px]  relative bg-gray-200 w-[13px] rounded-full '>
         <div
           style={{ height: barHeight }}

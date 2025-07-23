@@ -2,42 +2,22 @@ import { useState, useEffect } from 'react';
 import Expenses from './components/Expenses/Expenses';
 import NewExpense from './components/NewExpense/NewExpense';
 import Filter from './components/Expenses/Filter';
-import formatDate from './utils/formatDate';
-import getUniqueYears from './utils/getUniqueYears';
 import Chart from './components/Chart/Chart';
 import { NoExpenses } from './components/Expenses/NoExpenses';
 import Modal from './components/UI/Modal';
+import formatDate from './utils/formatDate';
+import getUniqueYears from './utils/getUniqueYears';
+import {
+  saveExpenses,
+  loadExpenses,
+  initialExpenses,
+} from './utils/localStorage';
+import AppBackground from './components/UI/AppBackground';
 
-const initialExpenses = [
-  {
-    id: 'e1',
-    title: 'buying A',
-    date: new Date('2025-07-10'),
-    amount: 89,
-  },
-  {
-    id: 'e2',
-    title: 'buying B',
-    date: new Date('2024-06-17'),
-    amount: 94,
-  },
-  {
-    id: 'e3',
-    title: 'buying C',
-    date: new Date('2024-01-19'),
-    amount: 109,
-  },
-  {
-    id: 'e4',
-    title: 'buying d',
-    date: new Date('2023-06-1'),
-    amount: 30,
-  },
-];
 const { year: initialFilterYear } = formatDate(initialExpenses[0].date);
 
 export const App = () => {
-  const [expenses, setExpenses] = useState(initialExpenses);
+  const [expenses, setExpenses] = useState(loadExpenses);
   const [filteredYear, setFilteredYear] = useState(initialFilterYear);
   const [expenseToDelete, setExpenseToDelete] = useState(null);
 
@@ -80,23 +60,13 @@ export const App = () => {
         setFilteredYear('');
       }
     }
-
-    return () => {};
   }, [expenses, filteredYear]);
 
+  useEffect(() => {
+    saveExpenses(expenses);
+  }, [expenses]);
   return (
-    <div className='min-h-screen w-full bg-black relative overflow-hidden text-white'>
-      {/* Midnight Mist */}
-      <div
-        className='absolute inset-0 z-0'
-        style={{
-          backgroundImage: `
-          radial-gradient(circle at 50% 100%, rgba(70, 85, 110, 0.5) 0%, transparent 60%),
-          radial-gradient(circle at 50% 100%, rgba(99, 102, 241, 0.4) 0%, transparent 70%),
-          radial-gradient(circle at 50% 100%, rgba(181, 184, 208, 0.3) 0%, transparent 80%)
-        `,
-        }}
-      />
+    <AppBackground>
       <div className='mx-auto max-w-[800px] relative z-40'>
         <NewExpense onCreateExpense={createExpenseHandler} />
         <Chart items={filteredExpenses} />
@@ -130,7 +100,7 @@ export const App = () => {
           />
         )}
       </div>
-    </div>
+    </AppBackground>
   );
 };
 export default App;

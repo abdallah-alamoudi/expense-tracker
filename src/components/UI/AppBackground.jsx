@@ -1,6 +1,6 @@
 import React from 'react';
 
-const AppBackground = ({ children }) => {
+const AppBackground = ({children}) => {
   return (
     <div className='min-h-screen w-full bg-black relative overflow-hidden text-white'>
       {/* Midnight Mist */}

@@ -51,6 +51,7 @@ export const App = () => {
     );
     setExpenseToDelete(null);
   };
+
   useEffect(() => {
     const uniqueYears = getUniqueYears(expenses);
     if (!uniqueYears.includes(filteredYear)) {
@@ -62,9 +63,11 @@ export const App = () => {
     }
   }, [expenses, filteredYear]);
 
+  // save to local storage
   useEffect(() => {
     saveExpenses(expenses);
   }, [expenses]);
+
   return (
     <AppBackground>
       <div className='mx-auto max-w-[800px] relative z-40'>

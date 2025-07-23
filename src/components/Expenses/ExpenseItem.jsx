@@ -1,16 +1,19 @@
 import formatDate from '../../utils/formatDate';
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { X, Pen } from 'lucide-react';
 import { Input } from '../NewExpense/Input';
+
 const ExpenseItem = ({ id, title, date, amount, onUpdate, onDelete }) => {
   const [isInUpdate, setIsInUpdate] = useState(false);
   const [editTitle, setEditTitle] = useState(title);
+  const updateInputRef = useRef();
   const { day, month, year } = formatDate(date);
   const keyDownHandler = (e) => {
     const keyPressed = e.key;
     if (keyPressed === 'Enter') {
       if (editTitle === '') return;
       setIsInUpdate(false);
+
       onUpdate(id, {
         id,
         title: editTitle,
@@ -19,8 +22,12 @@ const ExpenseItem = ({ id, title, date, amount, onUpdate, onDelete }) => {
       });
     }
   };
+  // focus when pen is clicked
+  useEffect(() => {
+    if (isInUpdate) updateInputRef.current.focus();
+  }, [isInUpdate]);
   return (
-    <div className='bg-gray-700 py-3 px-5 my-5 rounded-2xl flex justify-between items-center relative'>
+    <div className='bg-gray-700 py-3 px-5 my-5 rounded-2xl sm:flex  sm:flex-row justify-between items-center  relative'>
       <div className='absolute right-5 top-3 flex gap-3 '>
         <Pen
           onClick={() => {
@@ -39,7 +46,7 @@ const ExpenseItem = ({ id, title, date, amount, onUpdate, onDelete }) => {
           className='cursor-pointer hover:scale-130 transition duration-150'
         />
       </div>
-      <div className=' flex items-center'>
+      <div className=' flex justify-between items-center sm:justify-center  '>
         <div className='date bg-gray-800 p-3 rounded-xl w-[100px] flex justify-center items-center flex-col  mr-3'>
           <div className='month bold text-lg'>{month}</div>
           <div className='year'>{year}</div>
@@ -50,7 +57,8 @@ const ExpenseItem = ({ id, title, date, amount, onUpdate, onDelete }) => {
         )}
         {isInUpdate && (
           <input
-            className=' capitalize text-xl rounded focus:outline-0 bg-white p-2 text-black'
+            ref={updateInputRef}
+            className=' capitalize text-xl max-w-[150px] sm:max-w-[none] rounded focus:outline-0 bg-white p-2 text-black block '
             type='text'
             value={editTitle}
             onChange={(e) => {
@@ -60,7 +68,7 @@ const ExpenseItem = ({ id, title, date, amount, onUpdate, onDelete }) => {
           ></input>
         )}
       </div>
-      <div className='amount px-8 py-2 w-[100px] flex justify-center  rounded-2xl bg-cyan-600 text-2xl font-bold'>
+      <div className='amount px-8 py-2 w-full sm:w-[100px] flex justify-center  rounded-2xl bg-cyan-600 mt-4 sm:mt-0 text-2xl font-bold'>
         ${amount}
       </div>
     </div>

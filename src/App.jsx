@@ -6,6 +6,7 @@ import formatDate from './utils/formatDate';
 import getUniqueYears from './utils/getUniqueYears';
 import Chart from './components/Chart/Chart';
 import { NoExpenses } from './components/Expenses/NoExpenses';
+import Modal from './components/UI/Modal';
 
 const initialExpenses = [
   {
@@ -38,6 +39,7 @@ const { year: initialFilterYear } = formatDate(initialExpenses[0].date);
 export const App = () => {
   const [expenses, setExpenses] = useState(initialExpenses);
   const [filteredYear, setFilteredYear] = useState(initialFilterYear);
+  const [expenseToDelete, setExpenseToDelete] = useState(null);
 
   const filteredExpenses = expenses.filter(
     (exp) => formatDate(exp.date).year === filteredYear,
@@ -58,9 +60,17 @@ export const App = () => {
   };
 
   const deleteExpenseHandler = (id) => {
-    setExpenses((prevExps) => prevExps.filter((exp) => exp.id !== id));
+    setExpenseToDelete(id);
   };
-
+  const cancelDeleteHandler = () => {
+    setExpenseToDelete(null);
+  };
+  const confirmDeleteHandler = () => {
+    setExpenses((prevExps) =>
+      prevExps.filter((exp) => exp.id !== expenseToDelete),
+    );
+    setExpenseToDelete(null);
+  };
   useEffect(() => {
     const uniqueYears = getUniqueYears(expenses);
     if (!uniqueYears.includes(filteredYear)) {
@@ -109,6 +119,16 @@ export const App = () => {
             </>
           )}
         </div>
+        {expenseToDelete && (
+          <Modal
+            title={'Are you sure you want to delete this expense?'}
+            message={'This action cannot be undone.'}
+            cancelMsg={'Cancel'}
+            confirmMsg={'Delete'}
+            onCancel={cancelDeleteHandler}
+            onConfirm={confirmDeleteHandler}
+          />
+        )}
       </div>
     </div>
   );

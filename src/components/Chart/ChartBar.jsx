@@ -3,7 +3,6 @@ import React from 'react';
 const ChartBar = ({ month: { title, value }, maxVal }) => {
   const barHeight = maxVal === 0 ? 0 : Math.round((value / maxVal) * 100);
 
-  console.log(title, barHeight);
   return (
     <div className='flex flex-col justify-center items-center text-cyan-200 font-bold '>
       <div className='h-[100px]  relative bg-gray-200 w-[13px] rounded-full '>

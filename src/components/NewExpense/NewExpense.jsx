@@ -35,7 +35,7 @@ const NewExpense = ({ onCreateExpense }) => {
   };
   return (
     <div
-      style={{ maxHeight: !open ? '100px' : '300px' }}
+      style={{ maxHeight: !open ? '100px' : '350px' }}
       className='p-6 transition-all duration-200 rounded-2xl'
     >
       {!open && <AddBtn onClick={addBtnClickHandler}></AddBtn>}

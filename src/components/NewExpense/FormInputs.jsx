@@ -13,7 +13,7 @@ const FormInputs = ({ title, setTitle, amount, setAmount, date, setDate }) => {
   };
   return (
     <div>
-      <div className='flex justify-center  gap-5 '>
+      <div className='flex flex-wrap justify-center  gap-5 '>
         <Input
           value={title}
           onChange={titleChangeHandler}
@@ -27,7 +27,7 @@ const FormInputs = ({ title, setTitle, amount, setAmount, date, setDate }) => {
           type={'number'}
         ></Input>
       </div>
-      <div className='date flex m-4 w-[440px] mx-auto flex-col'>
+      <div className='date flex  m-4 w-[440px] max-w-[60%]  mx-auto flex-col'>
         <Input
           value={date}
           onChange={dateChangeHandler}
